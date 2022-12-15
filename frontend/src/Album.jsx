@@ -4,6 +4,7 @@ import Gallery from "react-photo-gallery";
 import Carousel, { Modal, ModalGateway } from "react-images";
 import axios from "axios";
 import useInfiniteScroll from "react-infinite-scroll-hook";
+import Measure from "react-measure";
 import { photos as samplePhotos } from "./photos";
 import "./Album.css";
 
@@ -42,7 +43,7 @@ export default function Album() {
           width: 1,
           height: 1,
         }));
-        console.log(newImages);
+        //console.log(newImages);
         return setPhotos((oldImages) => [...oldImages, ...newImages]);
       }
       return setHasNextPage(false);
@@ -68,6 +69,13 @@ export default function Album() {
         photos={photos}
         direction={"column"}
         onClick={openLightbox}
+        margin={12}
+        columns={(containerWidth) => {
+          if (containerWidth >= 1300) {
+            return 3;
+          }
+          return undefined;
+        }}
       />
       {(loading || hasNextPage) && (
         <div ref={sentryRef} className="loading-element">

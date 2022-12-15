@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,6 +27,7 @@ SECRET_KEY = 'django-insecure-kgjq!&*j4h0ynz)vrutckgu8-+cd2t5+@#w&*5sq$q1ildn2+$
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '127.0.0.1',
     'freewhale.pythonanywhere.com',
     'aa59-220-135-84-203.jp.ngrok.io',
 ]
@@ -58,7 +60,7 @@ ROOT_URLCONF = 'lineBot_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['frontend/build'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,7 +122,10 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "frontend/build/static"),
+    os.path.join(BASE_DIR, "frontend/build"),
+]
 STATIC_URL = '/static/'
 
 # Default primary key field type

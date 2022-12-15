@@ -1,3 +1,13 @@
 .loading-element {
     color: white;
 }
+
+.react-photo-gallery--gallery {
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .react-photo-gallery--gallery {
+        max-width: 1320px;
+    }
+}

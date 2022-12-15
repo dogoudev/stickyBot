@@ -6,7 +6,7 @@ from lineBot.models import LineChat
 
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
-from linebot.models import MessageEvent, TextSendMessage,  ImageSendMessage
+from linebot.models import MessageEvent, TextSendMessage, ImageSendMessage
 import json
 
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
@@ -14,7 +14,7 @@ parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
 
 def hello_world(request):
     return HttpResponse("Hello World!")
-    
+
 # 忽略CSRF檢查
 @csrf_exempt
 def callback(request):
@@ -28,7 +28,7 @@ def callback(request):
             return HttpResponseForbidden()
         except LineBotApiError:
             return HttpResponseBadRequest()
- 
+
         for event in events:
             #如果事件為訊息
             if isinstance(event, MessageEvent):
@@ -79,3 +79,6 @@ def add_chat_logs(event):
         text = text,
         photoid = photoId,
     )
+
+def album(request):
+    return render(request, "index.html")

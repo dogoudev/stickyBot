@@ -16,9 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from lineBot import views
+from lineBot.apis import post
 
+api_path = "api/v1/"
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     path("callback/", views.callback),
     path("", views.hello_world),
+    path(api_path + "album", post),
+    path("album", views.album),
 ]
