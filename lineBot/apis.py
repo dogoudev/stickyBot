@@ -28,10 +28,10 @@ def _get_all_photos(startindex):
         photo_data = {
             "groupId": _photo.groupId,
             "userId": _photo.userId,
-            "album": _photo.album,
             "imageUrl": _photo.imageUrl,
-            "note": _photo.note,
-            "photoDate": _photo.photoDate,
+            "width": _photo.width,
+            "height": _photo.height,
+            "photoDate": _photo.created_at,
         }
         photos.append(photo_data)
 

@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-import os
 from pathlib import Path
+from .local_settings import *
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,9 +28,7 @@ SECRET_KEY = 'django-insecure-kgjq!&*j4h0ynz)vrutckgu8-+cd2t5+@#w&*5sq$q1ildn2+$
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'freewhale.pythonanywhere.com',
-    'aa59-220-135-84-203.jp.ngrok.io',
+     '*'
 ]
 
 
@@ -82,6 +81,7 @@ WSGI_APPLICATION = 'lineBot_site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': '/mnt/tickySqlite/db.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
@@ -122,7 +122,10 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'lineBot/static/'),
     os.path.join(BASE_DIR, "frontend/build/static"),
     os.path.join(BASE_DIR, "frontend/build"),
 ]
@@ -132,6 +135,3 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-LINE_CHANNEL_ACCESS_TOKEN = 'XXXXXXXXXXXXXXXXXXXXXXXXXXX'
-LINE_CHANNEL_SECRET = 'XXXXXXXXXXXXXXXXXX'

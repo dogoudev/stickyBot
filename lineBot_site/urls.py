@@ -21,7 +21,7 @@ from lineBot.apis import post
 api_path = "api/v1/"
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("callback/", views.callback),
+    path("callback", views.callback),
     path("", views.hello_world),
     path(api_path + "album", post),
     path("album", views.album),

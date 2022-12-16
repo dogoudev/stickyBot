@@ -9,6 +9,10 @@ Install line-bot-sdk
 
     pip install line-bot-sdk
 
+Install imgur python
+
+    pip install imgurpython
+
 Modify settings.py
 
     LINE_CHANNEL_ACCESS_TOKEN = 'Messaging API的Channel access token'
