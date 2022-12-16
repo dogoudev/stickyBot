@@ -5,16 +5,17 @@ import Carousel, { Modal, ModalGateway } from "react-images";
 import axios from "axios";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import Measure from "react-measure";
-import { photos as samplePhotos } from "./photos";
 import "./Album.css";
 
 export default function Album() {
-  const [photos, setPhotos] = useState(samplePhotos);
+  const [photos, setPhotos] = useState([]);
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [pageIdx, setPageIdx] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(true);
+
+  const hasPhoto = photos.length > 0;
 
   const openLightbox = useCallback((event, { photo, index }) => {
     setCurrentImage(index);
@@ -40,8 +41,8 @@ export default function Album() {
       if (photos.length > 0) {
         const newImages = photos.map((obj) => ({
           src: obj.imageUrl,
-          width: 1,
-          height: 1,
+          width: obj.width || 1,
+          height: obj.height || 1,
         }));
         //console.log(newImages);
         return setPhotos((oldImages) => [...oldImages, ...newImages]);
@@ -64,19 +65,21 @@ export default function Album() {
 
   return (
     <>
-      <Gallery
-        style={{ backgroundColor: "black" }}
-        photos={photos}
-        direction={"column"}
-        onClick={openLightbox}
-        margin={12}
-        columns={(containerWidth) => {
-          if (containerWidth >= 1300) {
-            return 3;
-          }
-          return undefined;
-        }}
-      />
+      {hasPhoto && (
+        <Gallery
+          style={{ backgroundColor: "black" }}
+          photos={photos}
+          direction={"column"}
+          onClick={openLightbox}
+          margin={12}
+          columns={(containerWidth) => {
+            if (containerWidth >= 1300) {
+              return 3;
+            }
+            return undefined;
+          }}
+        />
+      )}
       {(loading || hasNextPage) && (
         <div ref={sentryRef} className="loading-element">
           <h1>Loading...</h1>
