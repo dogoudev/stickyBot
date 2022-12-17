@@ -7,7 +7,7 @@ import useInfiniteScroll from "react-infinite-scroll-hook";
 import Measure from "react-measure";
 import "./Album.css";
 
-export default function Album() {
+export default function Album(props) {
   const [photos, setPhotos] = useState([]);
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
@@ -35,7 +35,7 @@ export default function Album() {
       // https://medium.com/bb-tutorials-and-thoughts/react-how-to-proxy-to-backend-server-5588a9e0347
       // TODO: remove proxy
       const response = await axios.get("/api/v1/album", {
-        params: { startindex: pageIdx },
+        params: { startindex: pageIdx, albumId: props.albumId },
       });
       const photos = response.data.photos;
       if (photos.length > 0) {
@@ -44,7 +44,7 @@ export default function Album() {
           width: obj.width || 1,
           height: obj.height || 1,
         }));
-        //console.log(newImages);
+        props.setAlbumName(response.data.albumName);
         return setPhotos((oldImages) => [...oldImages, ...newImages]);
       }
       return setHasNextPage(false);
