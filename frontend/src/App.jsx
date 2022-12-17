@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Album from "./Album.jsx";
 
 function App() {
+  let el = document.createElement("a");
+  el.href = window.location.href;
+  const albumId = el.pathname.split("/")[2] || "";
+
+  const [albumName, setAlbumName] = useState("");
+
   return (
     <div className="App">
       <header className="App-header">
-        <p>Album</p>
+        <p>{albumName}</p>
       </header>
 
       <div>
-        <Album />
+        <Album albumId={albumId} setAlbumName={setAlbumName} />
       </div>
     </div>
   );
