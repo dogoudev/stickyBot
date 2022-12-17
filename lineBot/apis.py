@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import JsonResponse
 
-from lineBot.models import PhotoAlbum
+from lineBot.models import PhotoAlbum, ChannelInfo
 
 
 @csrf_exempt
@@ -11,15 +11,18 @@ def post(request: WSGIRequest):
         return JsonResponse(
             {
                 "status": "Get photos succeed",
-                "photos": _get_all_photos(int(request.GET["startindex"])),
+                "photos": _get_all_photos(int(request.GET["startindex"]), request.GET["albumId"]),
             }
         )
 
 
-def _get_all_photos(startindex):
+def _get_all_photos(startindex, albumId):
+    print(albumId)
     elem_per_page = 5
+    channel = ChannelInfo.objects.filter(imgurAlbum=albumId).first()
+    
     # all posts
-    all_photos = PhotoAlbum.objects.order_by("-id")[
+    all_photos = PhotoAlbum.objects.filter(groupId=channel.groupId).order_by("-created_at")[
         elem_per_page * startindex : elem_per_page * (startindex + 1)
     ]
     photos = []

@@ -7,13 +7,15 @@ class LineChat(models.Model):
     userId = models.CharField(max_length=100)
     type = models.CharField(max_length=10)
     text = models.TextField(blank=True)
-    photoid = models.CharField(max_length=20)
+    fileId = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
 
 class ChannelInfo(models.Model):
     groupId = models.CharField(max_length=100)
     imgurAlbum = models.CharField(max_length=20, default='')
-    alias = models.CharField(max_length=20, default='')
+    albumAlias = models.CharField(max_length=20, default='')
+    googleDriveId=models.CharField(max_length=100, default='')
+    googleDriveUrl=models.CharField(max_length=150, default='')
 
 class PhotoAlbum(models.Model):
     groupId = models.CharField(max_length=100)
