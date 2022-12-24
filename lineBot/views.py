@@ -163,10 +163,16 @@ def text_logic(event):
         search_file(event, search_key)
     elif text[:9] == '貼貼 給我相簿網址':
         channel = get_channel(groupId)
-        line_bot_api.reply_message(  # 回復傳入的訊息文字
-            event.reply_token,
-            TextSendMessage(text='https://stickybot.fly.dev/album/' + channel.imgurAlbum)
-        )
+        if channel.imgurAlbum:
+            line_bot_api.reply_message(  # 回復傳入的訊息文字
+                event.reply_token,
+                TextSendMessage(text='https://stickybot.fly.dev/album/' + channel.imgurAlbum)
+            )
+        else:
+            line_bot_api.reply_message(  # 回復傳入的訊息文字
+                event.reply_token,
+                TextSendMessage(text='先上傳個圖片來啊')
+            )
     elif text[:19] == '貼貼 給我google drive網址':
         channel = get_channel(groupId)
         if channel.googleDriveUrl:
@@ -312,12 +318,23 @@ def search_file(event, key):
     gauth.CommandLineAuth() #透過授權碼認證
     drive = GoogleDrive(gauth)
 
+    if not key:
+        line_bot_api.reply_message(
+            event.reply_token,
+                TextSendMessage(text='請直接輸入搜尋檔案名稱關鍵字\r\n如: 貼貼 搜尋檔案PDF'))
+        return
+
     file_list = drive.ListFile({'q': '"' + channel.googleDriveId + '" in parents and trashed=false'}).GetList()
     match_list = []
     for f in file_list:
         if key in f['title'].lower():
             match_list.append(f['title'])     
             match_list.append(f['alternateLink'])    
-    line_bot_api.reply_message(
-        event.reply_token,
-            TextSendMessage(text='\r\n'.join(match_list)))
+    if match_list:
+        line_bot_api.reply_message(
+            event.reply_token,
+                TextSendMessage(text='\r\n'.join(match_list)))
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+                TextSendMessage(text='查無檔案'))

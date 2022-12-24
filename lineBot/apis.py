@@ -12,9 +12,13 @@ def post(request: WSGIRequest):
             {
                 "status": "Get photos succeed",
                 "photos": _get_all_photos(int(request.GET["startindex"]), request.GET["albumId"]),
+                "albumName": _get_album_name(request.GET["albumId"])
             }
         )
 
+def _get_album_name(albumId):
+    channel = ChannelInfo.objects.filter(imgurAlbum=albumId).first()
+    return channel.albumAlias
 
 def _get_all_photos(startindex, albumId):
     print(albumId)
