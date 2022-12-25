@@ -181,7 +181,7 @@ def text_logic(event):
         if channel.imgurAlbum:
             line_bot_api.reply_message(  # 回復傳入的訊息文字
                 event.reply_token,
-                TextSendMessage(text='https://stickybot.fly.dev/album/' + channel.imgurAlbum)
+                TextSendMessage(text='https://sticky.fly.dev/album/' + channel.imgurAlbum)
             )
         else:
             line_bot_api.reply_message(  # 回復傳入的訊息文字
