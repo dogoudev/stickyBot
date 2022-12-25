@@ -2,7 +2,8 @@ from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 
 gauth = GoogleAuth()
-gauth.CommandLineAuth() #透過授權碼認證
+gauth.LoadCredentialsFile () #透過授權碼認證
+# gauth.CommandLineAuth() #透過授權碼認證
 drive = GoogleDrive(gauth)
 
 file1 = drive.CreateFile({'title': 'Hello.txt'})  # 建立檔案

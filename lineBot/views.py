@@ -137,6 +137,21 @@ def create_album(albumAlias, ids):
         print(e.status_code)
         return ''
 
+def getGoogleDrive():
+    gauth = GoogleAuth()
+    gauth.LoadCredentialsFile() 
+    if gauth.access_token_expired:
+        # Refresh them if expired
+        try:
+            gauth.Refresh()
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            print(err)
+    else:
+        # Initialize the saved creds
+        gauth.Authorize()
+    return GoogleDrive(gauth)
+
 # MESSAGE 文字處理邏輯
 def text_logic(event):
     groupId, userId, text, photoId = get_event_info(event)
@@ -249,9 +264,10 @@ def upload_to_googledrive(event):
     groupId, userId, text, fileId = get_event_info(event)
     channel = get_channel(groupId)
 
-    gauth = GoogleAuth()
-    gauth.CommandLineAuth() #透過授權碼認證
-    drive = GoogleDrive(gauth)
+    # gauth = GoogleAuth()
+    # gauth.CommandLineAuth() #透過授權碼認證
+    # drive = GoogleDrive(gauth)
+    drive = getGoogleDrive()
     fileName = event.message.file_name
     message_content = line_bot_api.get_message_content(fileId)
     # 把LINE MESSAGE的檔案存到暫存檔
@@ -314,9 +330,7 @@ def upload_to_googledrive(event):
 def search_file(event, key):
     groupId, userId, text, fileId = get_event_info(event)
     channel = get_channel(groupId)
-    gauth = GoogleAuth()
-    gauth.CommandLineAuth() #透過授權碼認證
-    drive = GoogleDrive(gauth)
+    drive = getGoogleDrive()
 
     if not key:
         line_bot_api.reply_message(
