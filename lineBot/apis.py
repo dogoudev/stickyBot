@@ -21,8 +21,7 @@ def _get_album_name(albumId):
     return channel.albumAlias
 
 def _get_all_photos(startindex, albumId):
-    print(albumId)
-    elem_per_page = 5
+    elem_per_page = 10
     channel = ChannelInfo.objects.filter(imgurAlbum=albumId).first()
     
     # all posts

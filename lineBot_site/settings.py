@@ -60,7 +60,7 @@ ROOT_URLCONF = 'lineBot_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['frontend/build'],
+        'DIRS': ['frontend/build','templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,9 +82,8 @@ WSGI_APPLICATION = 'lineBot_site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': '/mnt/stickySqlite/db.sqlite3',
         'NAME': '/mnt/stickyVol/db.sqlite3',
-        #'NAME': BASE_DIR / 'db.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

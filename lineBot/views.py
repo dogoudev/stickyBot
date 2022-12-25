@@ -23,7 +23,7 @@ def album(request, id):
     return render(request, "index.html", {'album': id})
 
 def hello_world(request):
-    return HttpResponse("Hello World!")
+    return render(request, "home.html")
 
 # 忽略CSRF檢查
 @csrf_exempt
@@ -166,6 +166,11 @@ def text_logic(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='好喔, 幫你把群組相簿改名為' + channel.albumAlias)
+        )
+    elif text[:7] == '貼貼 自我介紹':
+        line_bot_api.reply_message(  # 回復傳入的訊息文字
+            event.reply_token,
+            TextSendMessage(text='https://sticky.fly.dev/')
         )
     elif text[:7] == '貼貼 刪掉資料':
         del_channel(groupId)
