@@ -1,132 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
 
-<!doctype html>
-<html lang="en" class="h-100">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <title>StickyBot</title>
-    
-  </head>
-  <body>
-   <main>
-    
-    <div class="px-4 pt-5 my-5 text-center">
-        <h1 class="display-4 fw-bold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">StickyBot 生活便利貼─雲端相簿、檔案同步系統</font></font></h1>
-        <div class="col-lg-6 mx-auto">
-          <p class="lead mb-4 fs-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">透過LineBot上傳照片至Imgur, 上傳檔案至Google Drive分享.<br />透過LINE就可以簡單分享生活照片與檔案管理.</font></font></p>
-        </div>
-        <div class="overflow-hidden">
-          <div class="container px-5">
-            <img src="https://i.imgur.com/N7uoW4C.jpg" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Sticky Album" loading="lazy">
+<head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>StickyBot</title>
+        <!-- Favicon-->
+        <!-- <link rel="icon" type="image/x-icon" href="assets/favicon.ico" /> -->
+        <!-- Font Awesome icons (free version)-->
+        <!-- <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script> -->
+        <!-- Google fonts-->
+        <!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" /> -->
+        <!-- <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" /> -->
+        <!-- Core theme CSS (includes Bootstrap)-->
+        {% load static %}
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+        </head>
+    <body id="page-top">
+      <!-- Navigation-->
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+          <!-- <a class="navbar-brand" href="#page-top"><img src="{% static 'assets/img/navbar-logo.svg' %}" alt="..." /></a> -->
+          <a class="navbar-brand" href="#page-top">StickyBot 生活便利貼</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars ms-1"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+              <li class="nav-item"><a class="nav-link" href="#linebot">加入好友</a></li>
+              <li class="nav-item"><a class="nav-link" href="#services">雲端相簿</a></li>
+              <li class="nav-item"><a class="nav-link" href="#team">檔案同步系統</a></li>
+            </ul>
           </div>
-        </div>
-    </div>
-
-    <div class="px-4 pt-5 my-5 text-center">
-        <h1 class="display-5 fw-bold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">@212dgnhg</font></font></h1>
-        <div class="col-lg-6 mx-auto">
-          <p class="lead mb-4 fs-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">透過LINE 用戶ID搜尋 @212dgnhg , 並加入好友. 若要使用檔案上傳功能需建立群組</font></font></p>
-        </div>
-        <div class="overflow-hidden">
-          <div class="container px-5">
-            <img src="https://i.imgur.com/3Em3YCR.jpg" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Sticky Album" loading="lazy">
-          </div>
-        </div>
-    </div>
-
-    <div class="container col-xxl-8 px-4 py-5">
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-5  border-bottom">
-            <div class="col-10 col-sm-8 col-lg-6">
-                <img src="https://i.imgur.com/4WTu2Vt.jpg" class="d-block mx-lg-auto img-fluid" alt="上傳照片" width="700" height="500" loading="lazy">
             </div>
-            <div class="col-lg-6">
-                <h1 class="display-6 fw-bold lh-1 mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上傳照片</font></font></h1>
-                <p class="lead"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">透過LINE聊天機器人將照片上傳至Imgur圖床, 公開免費圖片空間, 請勿上傳不可公開分享之照片</font></font></p>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+          <div class="container">
+            <div class="masthead-heading text-uppercase">StickyBot 生活便利貼</div>
+            <div class="masthead-subheading">──雲端相簿、檔案同步系統</div>
+            <a class="btn btn-primary btn-xl text-uppercase" href="#linebot">start</a>
             </div>
-        </div>
-    </div>    
-
-    <div class="px-4 pt-5 my-5 text-center">
-        <div class="row align-items-center">
-            <div class="col-lg-2 "></div>
-            <div class="col-lg-4 ">
-                <h1 class="display-6 fw-bold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">貼貼 我的相簿叫XXX</font></font></h1>
-                <div class="col-lg-12 mx-auto">
-                <p class="lead mb-4 fs-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">修改相簿上方顯示的名稱</font></font></p>
+        </header>
+        <!-- @212dgnhg-->
+        <section class="page-section bg-light" id="linebot">
+          <div class="container">
+            <div class="text-center">
+              <h2 class="section-heading">加入好友
+              </h2>
                 </div>
-                <div class="overflow-hidden">
-                <div class="container px-5">
-                    <img src="https://i.imgur.com/SzpLvgE.jpg" class="img-fluid border rounded-3 shadow-lg mb-4" alt="修改相簿名稱" loading="lazy">
-                </div>
-                </div>
-            </div>
-            <div class="col-lg-4 ">
-                <h1 class="display-6 fw-bold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">貼貼 給我相簿網址</font></font></h1>
-                <div class="col-lg-12 mx-auto">
-                <p class="lead mb-4 fs-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">取得相簿網址</font></font></p>
-                </div>
-                <div class="overflow-hidden">
-                <div class="container px-5">
-                    <img src="https://i.imgur.com/4k40pZu.jpg" class="img-fluid border rounded-3 shadow-lg mb-4" alt="相簿網址" loading="lazy">
-                </div>
-                </div>
-            </div>
-            <div class="col-lg-2 "></div>
-        </div>
-    </div>
-    <div class="container col-xxl-8 px-4 py-5">
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-5  border-bottom">
-            <div class="col-10 col-sm-8 col-lg-6">
-            <img src="https://i.imgur.com/N7uoW4C.jpg"" class="d-block mx-lg-auto img-fluid" alt="雲端相簿" width="700" height="500" loading="lazy">
-            </div>
-            <div class="col-lg-6">
-            <h1 class="display-6 fw-bold lh-1 mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">即可透過相簿網址瀏覽上傳的照片</font></font></h1>
-            </div>
-        </div>
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-5  border-bottom">
-            <div class="col-10 col-sm-8 col-lg-6">
-            <img src="https://i.imgur.com/pKjVU8Z.jpg" class="d-block mx-lg-auto img-fluid" alt="Google Drive" width="700" height="500" loading="lazy">
-            </div>
-            <div class="col-lg-6">
-            <h1 class="display-6 fw-bold lh-1 mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">上傳檔案</font></font></h1>
-            <p class="lead"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">透過LineBot上傳檔案至Google Drive, 並回傳連結網址</font></font></p>
-            </div>
-        </div>       
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-5  border-bottom">
-            <div class="col-10 col-sm-8 col-lg-6">
-            <img src="https://i.imgur.com/hw40fbp.jpg" class="d-block mx-lg-auto img-fluid" alt="Google Drive" width="700" height="500" loading="lazy">
-            </div>
-            <div class="col-lg-6">
-            <h1 class="display-6 fw-bold lh-1 mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">貼貼 給我google drive網址</font></font></h1>
-            <p class="lead"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">取得google drive網址</font></font></p>
-            </div>
-        </div>
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-5  border-bottom">
-            <div class="col-10 col-sm-8 col-lg-6">
-            <img src="https://i.imgur.com/jaAGd4p.jpg" class="d-block mx-lg-auto img-fluid" alt="搜尋檔案" width="700" height="500" loading="lazy">
-            </div>
-            <div class="col-lg-6">
-            <h1 class="display-6 fw-bold lh-1 mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">貼貼 搜尋檔案</font></font></h1>
-            <p class="lead"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">透過關鍵字搜尋Google Drive檔案(關鍵字前面要空白哦)</font></font></p>
-            </div>
-        </div> 
-    </div>
-
-    
-    <div class="px-4 pt-5 my-5 text-center">
-        <h2 class="display-4 fw-bold"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">後 續 功 能 持 續 開 發 中 . . .</font></font></h2>
-    </div>
-
-  </main>
-
-  <footer class="mt-auto text-white-50">
-    <p></p>
-  </footer>
-</div>
+                <!-- <div class="text-center">
+                                                                                    <div class="col-md-4" style = 'flex-direction: row;'>
+                                                                                        <h4 class="my-3">透過LINE 用戶ID搜尋 @212dgnhg , 並加入好友. 若要使用檔案上傳功能需建立群組
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-  </body>
+                        </h4>
+                        <img class="mx-auto" src="{% static 'assets/img/team/2.jpg' %}" alt="..." />
+                        </div>
+                </div> -->
+                <div class="d-lg-flex row flex-lg-row align-items-center g-5 py-5 search-id-container">
+                  <div class="search-id-text-div">
+                    <h3 class="my-3">透過LINE 用戶ID搜尋 <a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=212dgnhg"
+                        alt="line add friend link">@212dgnhg</a>，並加入好友。</h3>
+                    <h3 class="my-3">若要使用檔案上傳功能需建立群組</h3>
+                  </div>
+                    <img class="search-id-image" src="{% static 'assets/img/team/0.jpg' %}" alt="..." />
+                    <!-- <div class="col-10 col-sm-8 col-lg-6">
+                                                                                                    </div>
+                                                                                                    <div class="col-lg-6">
+                    </div> -->
+                    </div>
+                    </div>
+        </section>
+        <!-- 雲端相簿-->
+        <section class="page-section" id="services">
+          <div class="container">
+            <div class="text-center">
+              <h2 class="section-heading text-uppercase">雲端相簿</h2>
+              <h3 class="section-subheading text-muted"></h3>
+                </div>
+                <div class="row text-center">
+                  <div class="col-md-4">
+                    <div class="team-member">
+                      <img class="mx-auto" src="{% static 'assets/img/team/4.jpg' %}" alt="..." />
+                      <h4 class="my-3">上傳照片
+                      </h4>
+                      <p class="text-muted">透過LINE聊天機器人將照片上傳至Imgur圖床, 公開免費圖片空間, 請勿上傳不可公開分享之照片
+                      </p>
+                    </div>
+                  </div>
+                    <div class="col-md-4">
+                      <div class="team-member">
+                        <img class="mx-auto" src="{% static 'assets/img/team/5.jpg' %}" alt="..." />
+                        <h4 class="my-3">貼貼 我的相簿叫XXX
+                        </h4>
+                        <p class="text-muted">修改相簿上方顯示的名稱
+                        </p>
+                    </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="team-member">
+                        <img class="mx-auto" src="{% static 'assets/img/team/6.jpg' %}" alt="..." />
+                        <h4 class="my-3">貼貼 給我相簿網址</h4>
+                        <p class="text-muted">取得相簿網址
+                        </p>
+                      </div>
+                    </div>
+                    </div>
+                <div class="row text-center">
+                  <div>
+                    <div class="team-member2">
+                      <img class="mx-auto" src="{% static 'assets/img/team/7.jpg' %}" alt="..." />
+                      <h4 class="my-3">即可透過相簿網址瀏覽上傳的照片
+                      </h4>
+                    </div>
+                  </div>
+                  </div>
+        </section>
+        <!-- 檔案同步系統-->
+        <section class="page-section bg-light" id="team">
+          <div class="container">
+            <div class="text-center">
+              <h2 class="section-heading text-uppercase">檔案同步系統</h2>
+              <h3 class="section-subheading text-muted"></h3>
+            </div>
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="team-member">
+                      <img class="mx-auto " src="{% static 'assets/img/team/1.jpg' %}" alt="..." />
+                      <h4>上傳檔案
+                      </h4>
+                      <p class="text-muted">透過LineBot上傳檔案至google drive, 並回傳連結網址
+                
+                      </p>
+                    </div>
+                  </div>
+                    <div class="col-lg-4">
+                      <div class="team-member">
+                        <img class="mx-auto" src="{% static 'assets/img/team/2.jpg' %}" alt="..." />
+                        <h4>貼貼 給我google drive網址
+                        </h4>
+                        <p class="text-muted">取得google drive網址
+                    
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="team-member">
+                        <img class="mx-auto" src="{% static 'assets/img/team/3.jpg' %}" alt="..." />
+                        <h4>貼貼 搜尋檔案
+                        </h4>
+                        <p class="text-muted">透過關鍵字搜尋google drive檔案(關鍵字前面要空白哦)
+                        </p>
+                      </div>
+                    </div>
+                    </div>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer class="footer py-4">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg-4 text-lg-start"></div>
+              <div class="col-lg-4 my-3 my-lg-0">ccClub 2022 Fall 生活便利貼
+                <!-- <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                                                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                                                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a> -->
+              </div>
+                    <div class="col-lg-4 text-lg-end">
+                      <!-- <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>
+                                                                                                        <a class="link-dark text-decoration-none" href="#!">Terms of Use</a> -->
+                    </div>
+                    </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'js/scripts.js' %}"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        </body>
 </html>

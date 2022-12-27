@@ -22,7 +22,7 @@ client = ImgurClient(settings.IMGUR_CLIENT_ID, settings.IMGUR_CLIENT_SECRET, set
 def album(request, id):
     return render(request, "index.html", {'album': id})
 
-def hello_world(request):
+def home(request):
     return render(request, "home.html")
 
 # 忽略CSRF檢查
@@ -54,9 +54,9 @@ def callback(request):
                 if event.message.type=='text':
                     text_logic(event)
                 elif event.message.type=='image':
-                    upload_to_imgur(event)      
+                    upload_to_imgur(event)
                 elif event.message.type=='file':
-                    upload_to_googledrive(event)              
+                    upload_to_googledrive(event)
                 # elif event.message.type=='location':
                 #     line_bot_api.reply_message(  # 回復傳入的訊息文字
                 #         event.reply_token,
@@ -88,8 +88,8 @@ def get_event_info(event):
     text = event.message.text if event.message.type == 'text' else ''
     fileId =  event.message.id
     return groupId, userId, text, fileId
-    
-# 將事件寫入CHAT LOG, 每天刪除昨日資料(TODO)    
+
+# 將事件寫入CHAT LOG, 每天刪除昨日資料(TODO)
 def add_chat_logs(event):
     groupId, userId, text, fileId = get_event_info(event)
     LineChat.objects.create(
@@ -128,7 +128,7 @@ def del_channel(groupId):
     ChannelInfo.objects.filter(groupId=groupId).delete()
 
 # 建立IMBUG相簿
-def create_album(albumAlias, ids):    
+def create_album(albumAlias, ids):
     try:
         album = client.create_album({'ids': ids, 'title': albumAlias })
         return album['id']
@@ -139,7 +139,7 @@ def create_album(albumAlias, ids):
 
 def getGoogleDrive():
     gauth = GoogleAuth()
-    gauth.LoadCredentialsFile() 
+    gauth.LoadCredentialsFile()
     if gauth.access_token_expired:
         # Refresh them if expired
         try:
@@ -207,8 +207,8 @@ def text_logic(event):
             )
     else:
         return
-        
-# 收到IMAGE MESSAGE時上傳IMGUR        
+
+# 收到IMAGE MESSAGE時上傳IMGUR
 def upload_to_imgur(event):
     groupId, userId, text, photoId = get_event_info(event)
     message_content = line_bot_api.get_message_content(photoId)
@@ -292,7 +292,7 @@ def upload_to_googledrive(event):
                     'mimeType': 'application/vnd.google-apps.folder',
                     'shared': True
                 }
-                folder = drive.CreateFile(file_metadata)            
+                folder = drive.CreateFile(file_metadata)
                 folder.Upload()
                 folder.InsertPermission({
                     'type': 'anyone',
@@ -307,8 +307,8 @@ def upload_to_googledrive(event):
             line_bot_api.reply_message(
                 event.reply_token,
                     TextSendMessage(text='檔名重複'))
-            return 
-        
+            return
+
         file1 = drive.CreateFile({
                 'parents': [{'id': channel.googleDriveId}],
                 'title': fileName,
@@ -347,8 +347,8 @@ def search_file(event, key):
     match_list = []
     for f in file_list:
         if key in f['title'].lower():
-            match_list.append(f['title'])     
-            match_list.append(f['alternateLink'])    
+            match_list.append(f['title'])
+            match_list.append(f['alternateLink'])
     if match_list:
         line_bot_api.reply_message(
             event.reply_token,
