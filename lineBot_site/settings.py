@@ -137,4 +137,6 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS=['https://sticky.fly.dev']
+CSRF_TRUSTED_ORIGINS=[  'https://sticky.fly.dev', 
+                        # 'https://99b1-220-135-84-203.jp.ngrok.io',
+                    ]

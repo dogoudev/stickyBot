@@ -6,7 +6,7 @@ from lineBot.models import LineChat, PhotoAlbum, ChannelInfo
 
 from linebot import LineBotApi, WebhookParser
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
-from linebot.models import MessageEvent, TextSendMessage,  ImageSendMessage
+from linebot.models import MessageEvent, TextSendMessage, TemplateSendMessage, CarouselTemplate, CarouselColumn, PostbackAction, MessageAction, URIAction, ImageCarouselTemplate, ImageCarouselColumn, CameraAction, CameraRollAction
 from imgurpython import ImgurClient
 from imgurpython.helpers.error import ImgurClientError
 from pydrive.auth import GoogleAuth
@@ -19,7 +19,7 @@ parser = WebhookParser(settings.LINE_CHANNEL_SECRET)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 client = ImgurClient(settings.IMGUR_CLIENT_ID, settings.IMGUR_CLIENT_SECRET, settings.IMGUR_ACCESS_TOKEN, settings.IMGUR_REFRESH_TOKEN)
 
-def album(request, id):
+def album(request, id='None'):
     return render(request, "index.html", {'album': id})
 
 def home(request):
@@ -46,37 +46,44 @@ def callback(request):
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
             print(err)
-
-        for event in events:
-            #如果事件為訊息
-            if isinstance(event, MessageEvent):
-                add_chat_logs(event)
-                if event.message.type=='text':
-                    text_logic(event)
-                elif event.message.type=='image':
-                    upload_to_imgur(event)
-                elif event.message.type=='file':
-                    upload_to_googledrive(event)
-                # elif event.message.type=='location':
-                #     line_bot_api.reply_message(  # 回復傳入的訊息文字
-                #         event.reply_token,
-                #         TextSendMessage(text=str(event))
-                #     )
-                # elif event.message.type=='video':
-                #     line_bot_api.reply_message(  # 回復傳入的訊息文字
-                #         event.reply_token,
-                #         TextSendMessage(text=str(event))
-                #     )
-                # elif event.message.type=='sticker':
-                #     line_bot_api.reply_message(  # 回復傳入的訊息文字
-                #         event.reply_token,
-                #         TextSendMessage(text=str(event))
-                #     )
-                # elif event.message.type=='audio':
-                #     line_bot_api.reply_message(  # 回復傳入的訊息文字
-                #         event.reply_token,
-                #         TextSendMessage(text=str(event))
-                #     )
+        
+        try:
+            for event in events:
+                #如果事件為訊息
+                if isinstance(event, MessageEvent):
+                    add_chat_logs(event)
+                    if event.message.type=='text':
+                        text_logic(event)
+                    elif event.message.type=='image':
+                        upload_to_imgur(event)
+                    elif event.message.type=='file':
+                        upload_to_googledrive(event)
+                    # elif event.message.type=='location':
+                    #     line_bot_api.reply_message(  # 回復傳入的訊息文字
+                    #         event.reply_token,
+                    #         TextSendMessage(text=str(event))
+                    #     )
+                    # elif event.message.type=='video':
+                    #     line_bot_api.reply_message(  # 回復傳入的訊息文字
+                    #         event.reply_token,
+                    #         TextSendMessage(text=str(event))
+                    #     )
+                    # elif event.message.type=='sticker':
+                    #     line_bot_api.reply_message(  # 回復傳入的訊息文字
+                    #         event.reply_token,
+                    #         TextSendMessage(text=str(event))
+                    #     )
+                    # elif event.message.type=='audio':
+                    #     line_bot_api.reply_message(  # 回復傳入的訊息文字
+                    #         event.reply_token,
+                    #         TextSendMessage(text=str(event))
+                    #     )
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            print(err)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text='Hmm, 我也不知道哪裡錯了....\r\n晚點再試一次看看?'))
         return HttpResponse()
     else:
         return HttpResponseBadRequest()
@@ -137,9 +144,73 @@ def create_album(albumAlias, ids):
         print(e.status_code)
         return ''
 
+def get_carousel(groupId):
+    channel = get_channel(groupId)
+    image_carousel_template_message = TemplateSendMessage(
+        alt_text='ImageCarousel template',
+        template=ImageCarouselTemplate(
+            columns=[
+                ImageCarouselColumn(
+                    image_url='https://i.imgur.com/6Xs6yB2.jpg',
+                    action=URIAction(
+                        label='打開說明網頁',
+                        uri='https://sticky.fly.dev/'
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url='https://i.imgur.com/SMp4qW6.jpg',
+                    action=URIAction(
+                        label='打開相簿',
+                        uri='https://sticky.fly.dev/album/' + channel.imgurAlbum
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url='https://i.imgur.com/4WTu2Vt.jpg',
+                    action=CameraRollAction(
+                        label='上傳照片'
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url='https://i.imgur.com/MM50Fmk.jpg',
+                    action=MessageAction(
+                        label='修改相簿名稱',
+                        text='貼貼 我的相簿叫XXX'
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url='https://i.imgur.com/g6L7B84.jpg',
+                    action=MessageAction(
+                        label='上傳檔案',
+                        text='請上傳檔案'
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url='https://i.imgur.com/Bu13u3w.jpg',
+                    action=MessageAction(
+                        label='搜尋檔案',
+                        text='貼貼 搜尋檔案'
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url='https://i.imgur.com/OPkrQ9l.jpg',
+                    action=MessageAction(
+                        label='打開 GD 分享資料夾',
+                        text='貼貼 給我google drive網址'
+                    )
+                )
+            ]
+        )
+    )
+    return image_carousel_template_message
+
 def getGoogleDrive():
     gauth = GoogleAuth()
     gauth.LoadCredentialsFile()
+    # gauth.Authorize()
+    # gauth = GoogleAuth()
+    # gauth.CommandLineAuth() #透過授權碼認證
+    # drive = GoogleDrive(gauth)
+
     if gauth.access_token_expired:
         # Refresh them if expired
         try:
@@ -168,9 +239,10 @@ def text_logic(event):
             TextSendMessage(text='好喔, 幫你把群組相簿改名為' + channel.albumAlias)
         )
     elif text[:7] == '貼貼 自我介紹':
+        image_carousel_template_message = get_carousel(groupId)
         line_bot_api.reply_message(  # 回復傳入的訊息文字
             event.reply_token,
-            TextSendMessage(text='https://sticky.fly.dev/')
+            image_carousel_template_message
         )
     elif text[:7] == '貼貼 刪掉資料':
         del_channel(groupId)
@@ -340,7 +412,7 @@ def search_file(event, key):
     if not key:
         line_bot_api.reply_message(
             event.reply_token,
-                TextSendMessage(text='請直接輸入搜尋檔案名稱關鍵字\r\n如: 貼貼 搜尋檔案PDF'))
+                TextSendMessage(text='請直接輸入搜尋檔案名稱關鍵字\r\n如: 貼貼 搜尋檔案 PDF'))
         return
 
     file_list = drive.ListFile({'q': '"' + channel.googleDriveId + '" in parents and trashed=false'}).GetList()

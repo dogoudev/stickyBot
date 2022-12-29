@@ -18,12 +18,26 @@ def post(request: WSGIRequest):
 
 def _get_album_name(albumId):
     channel = ChannelInfo.objects.filter(imgurAlbum=albumId).first()
+    if not bool(channel):
+        return '請先上傳照片'
     return channel.albumAlias
 
 def _get_all_photos(startindex, albumId):
     elem_per_page = 10
     channel = ChannelInfo.objects.filter(imgurAlbum=albumId).first()
-    
+
+    # 偷懶寫死一下
+    if not bool(channel):
+        photo_data = {
+            "groupId": '',
+            "userId": '',
+            "imageUrl": 'https://i.imgur.com/6Xs6yB2.jpg',
+            "width": 1,
+            "height": 1,
+            "photoDate": None,
+        }
+        return [photo_data, photo_data, photo_data]
+
     # all posts
     all_photos = PhotoAlbum.objects.filter(groupId=channel.groupId).order_by("-created_at")[
         elem_per_page * startindex : elem_per_page * (startindex + 1)

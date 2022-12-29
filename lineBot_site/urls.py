@@ -24,5 +24,6 @@ urlpatterns = [
     path("callback", views.callback),
     path("", views.home),
     path(api_path + "album", post),
+    path('album/', views.album),
     path('album/<str:id>', views.album),
 ]
